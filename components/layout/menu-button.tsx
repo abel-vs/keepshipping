@@ -42,11 +42,13 @@ export const MenuButton = () => {
   };
 
   const goToGitHub = () => {
-    router.push("https://github.com/abel-vs/keepshipping");
+    const githubUrl = process.env.NEXT_PUBLIC_GITHUB_URL || "";
+    router.push(githubUrl);
   };
 
   const goToDiscord = () => {
-    router.push("https://discord.gg/PYVXNvfX5g");
+    const discordUrl = process.env.NEXT_PUBLIC_DISCORD_URL || "";
+    router.push(discordUrl);
   };
 
   const logOut = () => {

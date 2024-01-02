@@ -1,26 +1,15 @@
-import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export default async function Home() {
-  const supabase = createClient(cookies());
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
   return (
     <div className="flex-1 w-full flex flex-col gap-4 items-center justify-center">
       <span className="text-7xl">🚢</span>
 
       <h1 className="text-4xl font-bold">keep shipping.</h1>
-      <div className="p-8">
-        {user
-          ? "hi " +
-            (user.user_metadata.name
-              ? user.user_metadata.name.toLowerCase()
-              : "") +
-            "!" +
-            "\nkeepshipping is coming soon! like... in one/two days ;)"
-          : "No user found."}
+      <div className="flex w-full max-w-sm items-center space-x-2">
+        <Input placeholder="today i shipped..." />
+        <Button type="submit">ship</Button>
       </div>
     </div>
   );
