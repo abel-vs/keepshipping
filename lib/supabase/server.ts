@@ -1,9 +1,9 @@
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 
-const supabase = createClient(cookies());
-
 export const getLastShip = async () => {
+  const supabase = createClient(cookies());
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
