@@ -1,7 +1,5 @@
 import Spacer from "../ui/spacer";
 import { MenuButton } from "./menu-button";
-import { Button } from "../ui/button";
-import Link from "next/link";
 
 export const Header = () => {
   return (

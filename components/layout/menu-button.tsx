@@ -51,8 +51,9 @@ export const MenuButton = () => {
     router.push(discordUrl);
   };
 
-  const logOut = () => {
-    supabase.auth.signOut();
+  const logOut = async () => {
+    await supabase.auth.signOut();
+    router.push("/landing");
   };
 
   return (

@@ -13,14 +13,18 @@ export default function SubmitShipSection() {
   const router = useRouter();
 
   const onSubmit = async () => {
+    if (description.trim() === "") {
+      toast.error("Description cannot be empty.");
+      return;
+    }
     setLoading(true);
     try {
       await addShip(description);
       toast.success("You shipped!");
       router.refresh();
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      toast.error("Something went wrong.");
+      toast.error("Something went wrong.", { description: error.message });
     } finally {
       setLoading(false);
     }
@@ -28,12 +32,18 @@ export default function SubmitShipSection() {
 
   return (
     <>
+      <span className="text-8xl">🚢</span>
       <h1 className="text-4xl font-bold">what did you ship today?</h1>
       <div className="flex w-full max-w-sm items-center space-x-2 mt-8">
         <Input
           placeholder="today i shipped..."
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              onSubmit();
+            }
+          }}
         />
         <Button type="submit" onClick={onSubmit} disabled={loading}>
           {loading ? <LoaderIcon className="animate-spin" /> : "ship"}

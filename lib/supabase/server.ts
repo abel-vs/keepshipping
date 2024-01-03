@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 
 const supabase = createClient(cookies());
 
-export const hasShippedToday = async () => {
+export const getLastShip = async () => {
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -18,10 +18,17 @@ export const hasShippedToday = async () => {
   if (shipsError) throw shipsError;
 
   if (ships.length == 0) {
-    return false;
+    return null;
   } else {
-    const today = new Date().toISOString().slice(0, 10);
-    const shipDate = new Date(ships[0].date).toISOString().slice(0, 10);
-    return shipDate == today;
+    return ships[0];
   }
+};
+
+export const hasShippedToday = async () => {
+  const ship = await getLastShip();
+  if (!ship) return false;
+
+  const today = new Date().toISOString().slice(0, 10);
+  const shipDate = new Date(ship.date).toISOString().slice(0, 10);
+  return shipDate == today;
 };

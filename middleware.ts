@@ -23,14 +23,14 @@ export async function middleware(request: NextRequest) {
 
     const pathname = request.nextUrl.pathname;
 
-    if (!session && pathname !== "/landing") {
+    if (session && pathname === "/landing") {
+      return redirectToHome(request);
+    }
+
+    if (!session && pathname !== "/landing" && pathname !== "/") {
       const url = new URL(request.url);
       url.pathname = "/landing";
       return NextResponse.redirect(url);
-    }
-
-    if (session && pathname === "/landing") {
-      return redirectToHome(request);
     }
 
     return response;

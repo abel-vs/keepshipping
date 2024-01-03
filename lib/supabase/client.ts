@@ -22,3 +22,20 @@ export const addShip = async (description: string) => {
   if (error) throw error;
   return data;
 };
+
+export const editShip = async (ship: Ship) => {
+  const { data, error } = await supabase
+    .from("ships")
+    .update(ship)
+    .match({ id: ship.id });
+  if (error) throw error;
+  return data;
+};
+
+export const deleteShip = async (ship: Ship) => {
+  const { error } = await supabase
+    .from("ships")
+    .delete()
+    .match({ id: ship.id });
+  if (error) throw error;
+};
