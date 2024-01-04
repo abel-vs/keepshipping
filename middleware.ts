@@ -27,7 +27,7 @@ export async function middleware(request: NextRequest) {
       return redirectToHome(request);
     }
 
-    if (!session && pathname !== "/landing" && pathname !== "/") {
+    if (!session && pathname != "/landing") {
       const url = new URL(request.url);
       url.pathname = "/landing";
       return NextResponse.redirect(url);
