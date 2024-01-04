@@ -15,7 +15,7 @@ export default async function ProfilePage() {
       {userDetails ? (
         <>
           <ProfileCard userDetails={userDetails} lastShips={lastShips} />
-          <EditProfileDialog username={userDetails?.username || ""} bio={""} />
+          <EditProfileDialog details={userDetails} />
         </>
       ) : (
         <CreateProfileCard />

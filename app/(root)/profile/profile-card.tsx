@@ -29,21 +29,27 @@ export const ProfileCard = ({
             </CardDescription>
           </div>
           <div className="flex items-center">
-            <Button variant="ghost" size="icon" asChild>
-              <Link href={userDetails.github_url || ""}>
-                <GithubIcon className="h-5 w-5" />
-              </Link>
-            </Button>
-            <Button variant="ghost" size="icon" asChild>
-              <Link href={userDetails.twitter_url || ""}>
-                <TwitterIcon className="h-5 w-5" />
-              </Link>
-            </Button>
-            <Button variant="ghost" size="icon" asChild>
-              <Link href={userDetails.website_url || ""}>
-                <LinkIcon className="h-5 w-5" />
-              </Link>
-            </Button>
+            {userDetails.github_url && (
+              <Button variant="ghost" size="icon" asChild>
+                <Link href={userDetails.github_url}>
+                  <GithubIcon className="h-5 w-5" />
+                </Link>
+              </Button>
+            )}
+            {userDetails.twitter_url && (
+              <Button variant="ghost" size="icon" asChild>
+                <Link href={userDetails.twitter_url}>
+                  <TwitterIcon className="h-5 w-5" />
+                </Link>
+              </Button>
+            )}
+            {userDetails.website_url && (
+              <Button variant="ghost" size="icon" asChild>
+                <Link href={userDetails.website_url}>
+                  <LinkIcon className="h-5 w-5" />
+                </Link>
+              </Button>
+            )}
           </div>
         </div>
       </CardHeader>
