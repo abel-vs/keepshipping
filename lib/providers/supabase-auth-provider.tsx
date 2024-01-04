@@ -3,18 +3,20 @@
 import { createClient } from "@/utils/supabase/client";
 import { Session, User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 interface AuthContextProps {
   user: User | null | undefined;
   signOut: () => Promise<void>;
   signInWithGitHub: () => Promise<void>;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextProps>({
   user: null,
   signOut: async () => {},
   signInWithGitHub: async () => {},
+  loading: false,
 });
 
 export default function SupabaseAuthProvider({
@@ -27,6 +29,8 @@ export default function SupabaseAuthProvider({
   const supabase = createClient();
   const router = useRouter();
 
+  const [loading, setLoading] = useState(false);
+
   const user = serverSession?.user ?? null;
 
   // Sign Out
@@ -37,6 +41,7 @@ export default function SupabaseAuthProvider({
 
   // Sign-In with Github
   const signInWithGitHub = async () => {
+    setLoading(true);
     await supabase.auth.signInWithOAuth({
       provider: "github",
     });
@@ -62,6 +67,7 @@ export default function SupabaseAuthProvider({
     user,
     signOut,
     signInWithGitHub,
+    loading,
   };
 
   return (
