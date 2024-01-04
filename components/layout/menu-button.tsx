@@ -4,38 +4,21 @@ import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { createClient } from "@/utils/supabase/client";
-import { useEffect, useState } from "react";
-import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/lib/providers/supabase-auth-provider";
 
 export const MenuButton = () => {
-  const supabase = createClient();
-  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (user) {
-        setUser(user);
-      }
-    };
-    fetchUser();
-  }, []);
+  const auth = useAuth();
 
   const goToProfile = () => {
     router.push("/profile");
@@ -51,11 +34,6 @@ export const MenuButton = () => {
     router.push(discordUrl);
   };
 
-  const logOut = async () => {
-    await supabase.auth.signOut();
-    router.push("/landing");
-  };
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -64,7 +42,9 @@ export const MenuButton = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56 mx-4 my-2">
-        <DropdownMenuLabel>{user?.user_metadata.user_name}</DropdownMenuLabel>
+        <DropdownMenuLabel>
+          {auth.user?.user_metadata.user_name}
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
         <DropdownMenuItem onClick={goToProfile}>Profile</DropdownMenuItem>
@@ -78,7 +58,7 @@ export const MenuButton = () => {
           </DropdownMenuPortal>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={logOut} className="text-red-500">
+        <DropdownMenuItem onClick={auth.signOut} className="text-red-500">
           Log out
         </DropdownMenuItem>
       </DropdownMenuContent>
