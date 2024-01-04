@@ -15,7 +15,7 @@ export default async function Home() {
           <span className="text-8xl">🚢</span>
           <h1 className="text-4xl font-bold">You shipped!</h1>
           <div className="p-4 w-full flex flex-col gap-4 items-center">
-            <AddShipCard />
+            {/* <AddShipCard /> */}
             <ShipCard ship={lastShip} />
           </div>
         </>
