@@ -3,6 +3,7 @@ export interface Ship {
   description: string;
   date: Date; // ISO date string
   user_id: string;
+  likes: number;
 }
 
 export interface UserDetails {

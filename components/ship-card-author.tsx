@@ -1,6 +1,7 @@
 import { fetchUserDetails, getUser } from "@/lib/supabase/server";
 import { Ship } from "@/lib/types";
 import { formatDateTime, timeAgoString } from "@/lib/utils";
+import { LikeButton } from "./like-button";
 
 export const ShipCardWithAuthor = async ({ ship }: { ship: Ship }) => {
   const details = await fetchUserDetails(ship.user_id);
@@ -31,6 +32,9 @@ export const ShipCardWithAuthor = async ({ ship }: { ship: Ship }) => {
           )}
         </span>
         <span className="font-medium text-left">{ship.description}</span>
+      </div>
+      <div className="mr-4">
+        <LikeButton ship={ship} />
       </div>
       <span className="text-sm text-neutral-500">
         {formatDateTime(ship.date)}
