@@ -36,6 +36,7 @@ export const CreateProfileCard = () => {
       return;
     }
     const userDetails = {
+      id: user?.id || "",
       username,
       bio,
       github_url,
