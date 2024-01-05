@@ -39,12 +39,12 @@ export const EditProfileDialog = ({ details }: { details: UserDetails }) => {
       setLoading(false);
       return;
     }
-    if (!twitterPattern.test(twitter_url || "")) {
+    if (twitter_url && !twitterPattern.test(twitter_url)) {
       toast.error("Twitter URL must start with https://twitter.com/");
       setLoading(false);
       return;
     }
-    if (!githubPattern.test(github_url || "")) {
+    if (github_url && !githubPattern.test(github_url)) {
       toast.error("GitHub URL must start with https://github.com/");
       setLoading(false);
       return;

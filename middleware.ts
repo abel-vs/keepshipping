@@ -41,7 +41,6 @@ export async function middleware(request: NextRequest) {
         .from("user_details")
         .select("")
         .eq("id", user_id);
-      console.log("User details", userDetails);
       if (
         pathname != "/onboarding" &&
         (!userDetails || userDetails.length === 0)
