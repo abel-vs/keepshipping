@@ -18,6 +18,7 @@
     "autoprefixer": "10.4.15",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "cmdk": "^0.2.0",
     "geist": "^1.0.0",
     "lucide-react": "^0.303.0",
     "next": "latest",

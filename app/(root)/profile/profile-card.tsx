@@ -55,15 +55,19 @@ export const ProfileCard = ({
       </CardHeader>
       <CardContent>
         <h2 className="text-xl font-bold">last ships</h2>
-        <div className="pt-4 w-full flex flex-col gap-4 items-center">
-          {lastShips.map((ship, index) => {
-            if (index === 0) {
-              return <EditableShipCard key={ship.id} ship={ship} />;
-            } else {
-              return <ShipCard key={ship.id} ship={ship} />;
-            }
-          })}
-        </div>
+        {lastShips.length > 0 ? (
+          <div className="pt-4 w-full flex flex-col gap-4 items-center">
+            {lastShips.map((ship, index) => {
+              if (index === 0) {
+                return <EditableShipCard key={ship.id} ship={ship} />;
+              } else {
+                return <ShipCard key={ship.id} ship={ship} />;
+              }
+            })}
+          </div>
+        ) : (
+          <p>{"no ships yet 😔"}</p>
+        )}
       </CardContent>
     </Card>
   );

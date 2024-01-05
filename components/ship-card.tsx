@@ -19,7 +19,7 @@ import { EditCard } from "./edit-card";
 export const ShipCard = ({ ship }: { ship: Ship }) => {
   return (
     <div className="flex items-center bg-secondary w-full max-w-3xl rounded-md px-4 py-2">
-      <span className="mr-4 text-xl">🚢</span>{" "}
+      <span className="mr-4 text-3xl">🚢</span>{" "}
       <span className="flex-grow font-medium text-left">
         {ship.description}
       </span>

@@ -6,6 +6,7 @@ export interface Ship {
 }
 
 export interface UserDetails {
+  id: string;
   username: string;
   bio: string;
   github_url?: string;
