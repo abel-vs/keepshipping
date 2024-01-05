@@ -11,7 +11,24 @@ export const ShipCardWithAuthor = async ({ ship }: { ship: Ship }) => {
       <span className="mr-4 text-3xl">🚢</span>{" "}
       <div className="flex flex-grow  flex-col items-start justify-center">
         <span className="text-neutral-500 text-sm">
-          {(isMe ? "You" : details?.username || "Someone") + " shipped"}
+          {isMe ? (
+            <span>
+              <a className="hover:text-neutral-200" href="/profile">
+                You{" "}
+              </a>
+              shipped
+            </span>
+          ) : (
+            <span>
+              <a
+                className="hover:text-neutral-200"
+                href={`/profile/${ship.user_id}`}
+              >
+                {details?.username || "Someone"}
+              </a>{" "}
+              shipped
+            </span>
+          )}
         </span>
         <span className="font-medium text-left">{ship.description}</span>
       </div>

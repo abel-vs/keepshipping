@@ -1,5 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
+import { isValidUUID } from "../utils";
 
 export const getUser = async () => {
   const supabase = createClient(cookies());
@@ -9,6 +10,8 @@ export const getUser = async () => {
 };
 
 export const getLastShips = async (user_id: string, limit: number) => {
+  if (!isValidUUID(user_id)) return [];
+
   const supabase = createClient(cookies());
 
   const { data: ships, error: shipsError } = await supabase
@@ -66,6 +69,8 @@ export const hasShippedToday = async () => {
 };
 
 export const fetchUserDetails = async (user_id: string) => {
+  if (!isValidUUID(user_id)) return null;
+
   const supabase = createClient(cookies());
 
   const { data, error } = await supabase
