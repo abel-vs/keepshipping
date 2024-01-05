@@ -1,6 +1,7 @@
 import { fetchUserDetails, getUser } from "@/lib/supabase/server";
 import { Ship } from "@/lib/types";
 import { formatDateTime, timeAgoString } from "@/lib/utils";
+import { LikeButton } from "./like-button";
 
 export const ShipCardWithAuthor = async ({ ship }: { ship: Ship }) => {
   const details = await fetchUserDetails(ship.user_id);
@@ -11,9 +12,29 @@ export const ShipCardWithAuthor = async ({ ship }: { ship: Ship }) => {
       <span className="mr-4 text-3xl">🚢</span>{" "}
       <div className="flex flex-grow  flex-col items-start justify-center">
         <span className="text-neutral-500 text-sm">
-          {(isMe ? "You" : details?.username || "Someone") + " shipped"}
+          {isMe ? (
+            <span>
+              <a className="hover:text-neutral-200" href="/profile">
+                You{" "}
+              </a>
+              shipped
+            </span>
+          ) : (
+            <span>
+              <a
+                className="hover:text-neutral-200"
+                href={`/profile/${ship.user_id}`}
+              >
+                {details?.username || "Someone"}
+              </a>{" "}
+              shipped
+            </span>
+          )}
         </span>
         <span className="font-medium text-left">{ship.description}</span>
+      </div>
+      <div className="mr-4">
+        <LikeButton ship={ship} />
       </div>
       <span className="text-sm text-neutral-500">
         {formatDateTime(ship.date)}
