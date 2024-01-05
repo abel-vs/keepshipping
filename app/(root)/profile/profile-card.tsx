@@ -1,4 +1,4 @@
-import { ShipCard } from "@/components/ship-card";
+import { EditableShipCard, ShipCard } from "@/components/ship-card";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -56,9 +56,13 @@ export const ProfileCard = ({
       <CardContent>
         <h2 className="text-xl font-bold">last ships</h2>
         <div className="pt-4 w-full flex flex-col gap-4 items-center">
-          {lastShips.map((ship) => (
-            <ShipCard key={ship.id} ship={ship} />
-          ))}
+          {lastShips.map((ship, index) => {
+            if (index === 0) {
+              return <EditableShipCard key={ship.id} ship={ship} />;
+            } else {
+              return <ShipCard key={ship.id} ship={ship} />;
+            }
+          })}
         </div>
       </CardContent>
     </Card>
