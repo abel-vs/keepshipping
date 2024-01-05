@@ -24,7 +24,6 @@ export const addShip = async (description: string) => {
     description,
     date: new Date(),
     user_id: user.id,
-    likes: 0,
   };
   const { data, error } = await supabase.from("ships").insert(ship);
   if (error) throw error;
