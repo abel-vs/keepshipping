@@ -8,6 +8,18 @@ function redirectToHome(request: NextRequest) {
   return NextResponse.redirect(url);
 }
 
+function redirectToLanding(request: NextRequest) {
+  const url = new URL(request.url);
+  url.pathname = "/landing";
+  return NextResponse.redirect(url);
+}
+
+function redirectToOnboarding(request: NextRequest) {
+  const url = new URL(request.url);
+  url.pathname = "/onboarding";
+  return NextResponse.redirect(url);
+}
+
 export async function middleware(request: NextRequest) {
   try {
     // This `try/catch` block is only here for the interactive tutorial.
@@ -23,14 +35,30 @@ export async function middleware(request: NextRequest) {
 
     const pathname = request.nextUrl.pathname;
 
+    if (session) {
+      const user_id = session.user.id;
+      const { data: userDetails } = await supabase
+        .from("user_details")
+        .select("")
+        .eq("id", user_id);
+      console.log("User details", userDetails);
+      if (
+        pathname != "/onboarding" &&
+        (!userDetails || userDetails.length === 0)
+      ) {
+        return redirectToOnboarding(request);
+      }
+      if (pathname === "/onboarding" && userDetails && userDetails.length > 0) {
+        return redirectToHome(request);
+      }
+    }
+
     if (session && pathname === "/landing") {
       return redirectToHome(request);
     }
 
     if (!session && pathname != "/landing") {
-      const url = new URL(request.url);
-      url.pathname = "/landing";
-      return NextResponse.redirect(url);
+      return redirectToLanding(request);
     }
 
     return response;

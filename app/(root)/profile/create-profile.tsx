@@ -9,16 +9,19 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/lib/providers/supabase-auth-provider";
 import { createUserDetails, updateUserDetails } from "@/lib/supabase/client";
-import { LoaderIcon } from "lucide-react";
+import { GithubIcon, LinkIcon, LoaderIcon, TwitterIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
 export const CreateProfileCard = () => {
-  const [username, setUsername] = useState("");
+  const { user } = useAuth();
+
+  const [username, setUsername] = useState(user?.user_metadata.user_name || "");
   const [bio, setBio] = useState("");
-  const [github_url, setGithubUrl] = useState("");
+  const [github_url, setGithubUrl] = useState("https://github.com/" + username);
   const [twitter_url, setTwitterUrl] = useState("");
   const [website_url, setWebsiteUrl] = useState("");
 
@@ -41,8 +44,8 @@ export const CreateProfileCard = () => {
     };
     try {
       await createUserDetails(userDetails);
-      router.refresh();
-      toast.success("Profile updated successfully");
+      toast.success("Profile created successfully");
+      router.push("/");
     } catch (error: any) {
       toast.error("An error occurred while updating the profile", {
         description: error.message,
@@ -86,7 +89,40 @@ export const CreateProfileCard = () => {
               placeholder="I am working on..."
             />
           </div>
-          <Button type="submit" className="w-full mt-2" disabled={loading}>
+          <div className="flex flex-col items-start gap-2 w-full">
+            <Label htmlFor="name" className="text-left mt-2">
+              Socials{" "}
+              <span className="text-sm text-neutral-500">(optional)</span>
+            </Label>
+            <div className="flex items-center gap-3 w-full">
+              <GithubIcon className="h-5 w-5" />
+              <Input
+                id="github"
+                value={github_url}
+                onChange={(e) => setGithubUrl(e.target.value)}
+                placeholder="https://github.com/hacker42"
+              />
+            </div>
+            <div className="flex items-center gap-3 w-full">
+              <TwitterIcon className="h-5 w-5" />
+              <Input
+                id="twitter"
+                value={twitter_url}
+                onChange={(e) => setTwitterUrl(e.target.value)}
+                placeholder="https://twitter.com/hacker42"
+              />
+            </div>
+            <div className="flex items-center gap-3 w-full">
+              <LinkIcon className="h-5 w-5" />
+              <Input
+                id="website"
+                value={website_url}
+                onChange={(e) => setWebsiteUrl(e.target.value)}
+                placeholder="https://mywebsite.com"
+              />
+            </div>
+          </div>
+          <Button type="submit" className="w-full mt-6" disabled={loading}>
             {loading ? (
               <div className="flex items-center gap-2">
                 <LoaderIcon className="animate-spin" />
