@@ -1,8 +1,9 @@
 import { hasShippedToday, getMyLastShip } from "@/lib/supabase/server";
 import SubmitShipSection from "./submit-section";
-import { ShipCard } from "@/components/ship-card";
+import { EditableShipCard, ShipCard } from "@/components/ship-card";
 import { FeedSection } from "./feed-section";
 import { ShipCardWithAuthor } from "@/components/ship-card-author";
+import { SearchBar } from "@/components/searchbar";
 
 export const revalidate = 0;
 
@@ -17,7 +18,7 @@ export default async function Home() {
           <span className="text-8xl">🚢</span>
           <h1 className="text-4xl font-bold mb-4">You shipped!</h1>
 
-          <ShipCardWithAuthor ship={lastShip} />
+          <EditableShipCard ship={lastShip} />
           <div className="h-4" />
           <FeedSection />
         </>

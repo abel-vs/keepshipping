@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/lib/providers/supabase-auth-provider";
 import { updateUserDetails } from "@/lib/supabase/client";
 import { UserDetails } from "@/lib/types";
 import { GithubIcon, LinkIcon, LoaderIcon, TwitterIcon } from "lucide-react";
@@ -28,6 +29,8 @@ export const EditProfileDialog = ({ details }: { details: UserDetails }) => {
 
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { user } = useAuth();
+  if (!user) throw new Error("User is not logged in");
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,6 +53,7 @@ export const EditProfileDialog = ({ details }: { details: UserDetails }) => {
       return;
     }
     const userDetails = {
+      id: user.id,
       username,
       bio,
       github_url,
@@ -81,7 +85,11 @@ export const EditProfileDialog = ({ details }: { details: UserDetails }) => {
             Make changes to your profile here.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={onSubmit} className="flex flex-col gap-4">
+        <form
+          id="profile-form"
+          onSubmit={onSubmit}
+          className="flex flex-col gap-4"
+        >
           <div className="flex flex-col items-start gap-2">
             <Label htmlFor="name" className="text-right">
               Username

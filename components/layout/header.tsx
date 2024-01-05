@@ -1,4 +1,4 @@
-import { Input } from "../ui/input";
+import { SearchBar } from "../searchbar";
 import { DarkModeButton } from "./dark-mode-button";
 import { MenuButton } from "./menu-button";
 
@@ -9,7 +9,7 @@ export const Header = () => {
         <span className="text-3xl">🚢</span>
         <span className="text-xl font-semibold">keepshipping</span>
       </a>
-      {/* <Input placeholder="search people" className="w-1/3 bg-secondary" /> */}
+      <SearchBar />
       <div className="flex items-center gap-2">
         <MenuButton />
         <DarkModeButton />
