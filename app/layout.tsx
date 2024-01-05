@@ -4,6 +4,7 @@ import { Rubik } from "next/font/google";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import SupabaseAuthProvider from "@/lib/providers/supabase-auth-provider";
+import { ThemeProvider } from "@/lib/providers/theme-provider";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -32,12 +33,14 @@ export default async function RootLayout({
   return (
     <html lang="en" className={font.className}>
       <body className="bg-background text-foreground">
-        <SupabaseAuthProvider serverSession={session}>
-          <main className="min-h-screen flex flex-col items-center">
-            {children}
-          </main>
-          <Toaster />
-        </SupabaseAuthProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <SupabaseAuthProvider serverSession={session}>
+            <main className="min-h-screen flex flex-col items-center">
+              {children}
+            </main>
+            <Toaster />
+          </SupabaseAuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
