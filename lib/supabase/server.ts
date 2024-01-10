@@ -59,6 +59,25 @@ export const getMyLastShips = async (limit: number) => {
   return getLastShips(user.id, limit);
 };
 
+export const getTodayShips = async () => {
+  const { user } = await getUser();
+  if (!user) throw new Error("Not logged in");
+  if (!isValidUUID(user.id)) return [];
+
+  const supabase = createClient(cookies());
+
+  const today = new Date().toISOString().slice(0, 10);
+  const { data: ships, error: shipsError } = await supabase
+    .from("ships")
+    .select("*")
+    .order("date", { ascending: false })
+    .eq("user_id", user.id)
+    .gte("date", today);
+  if (shipsError) throw shipsError;
+
+  return ships;
+};
+
 export const hasShippedToday = async () => {
   const ship = await getMyLastShip();
   if (!ship) return false;
