@@ -7,17 +7,19 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
+import { calculateStreak } from "@/lib/supabase/server";
 import { Ship, UserDetails } from "@/lib/types";
 import { GithubIcon, TwitterIcon, LinkIcon } from "lucide-react";
 import Link from "next/link";
 
-export const ProfileCard = ({
+export const ProfileCard = async ({
   userDetails,
   lastShips,
 }: {
   userDetails: UserDetails;
   lastShips: Ship[];
 }) => {
+  const current_streak = await calculateStreak();
   return (
     <Card className="w-full max-w-xl">
       <CardHeader>
@@ -54,7 +56,13 @@ export const ProfileCard = ({
         </div>
       </CardHeader>
       <CardContent>
-        <h2 className="text-xl font-bold">last ships</h2>
+        <h2 className="text-xl font-bold">current streak</h2>
+        <p>
+          {current_streak}
+          {" ships"}
+        </p>
+
+        <h2 className="text-xl font-bold mt-2">last ships</h2>
         {lastShips.length > 0 ? (
           <div className="pt-4 w-full flex flex-col gap-4 items-center">
             {lastShips.map((ship, index) => {

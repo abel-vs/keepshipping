@@ -111,3 +111,41 @@ export const fetchMyUserDetails = async () => {
 
   return fetchUserDetails(user.id);
 };
+
+export const calculateStreak = async () => {
+  const supabase = createClient(cookies());
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("Not logged in");
+
+  const { data: ships, error: shipsError } = await supabase
+    .from("ships")
+    .select("date")
+    .eq("user_id", user.id)
+    .order("date", { ascending: false });
+  if (shipsError) throw shipsError;
+
+  let streak = 0;
+  let currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0);
+
+  for (let ship of ships) {
+    const shipDate = new Date(ship.date);
+    shipDate.setHours(0, 0, 0, 0);
+
+    if (currentDate.getTime() === shipDate.getTime()) {
+      if (streak === 0) streak++;
+      continue;
+    }
+    if (currentDate.getTime() - shipDate.getTime() === 86400000) {
+      streak++;
+      currentDate = shipDate;
+    } else {
+      break;
+    }
+  }
+
+  return streak;
+};
